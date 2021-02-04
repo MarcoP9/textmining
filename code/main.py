@@ -2,6 +2,13 @@ import nltk
 import os
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument # doc2vec
 import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+# results
+from matplotlib import pyplot as plt
+from sklearn.metrics import classification_report, confusion_matrix
+import seaborn as sns
 
 #setting working directory
 os.chdir("C:/Users/fede9/Documents/GitHub/textmining/code")
@@ -47,5 +54,81 @@ if __name__ == "__main__":
    df["vectors"] = df["tweet_list"].apply(lambda x: model.infer_vector(x))
    print("Vectorization --- DONE")
    
-   # text classfication/clustering
-
+   ### text classfication
+   # prepare data
+   X_data = np.stack(df["vectors"], axis = 0)
+   Y_data = df["class"]
+   # verifica dimensioni vettori
+   assert X_data.shape[0] == Y_data.shape[0]   
+   
+   # split train-test
+   X_train, X_test, y_train, y_test = train_test_split(X_data, Y_data,
+                                                       test_size = 0.2,
+                                                       random_state = 42,
+                                                       shuffle = True,
+                                                       stratify = Y_data)
+   
+   assert X_train.shape[0] == y_train.shape[0]
+   assert X_test.shape[0] == y_test.shape[0]
+   
+   ### training
+   def c_matrix(y_val, y_pred, classes):
+       cm = confusion_matrix(y_val, y_pred)
+       fig, ax= plt.subplots(figsize = (8,6))
+       sns.heatmap(cm, annot=True, annot_kws={"size": 10},
+                  linewidths=.2, fmt="d", cmap="PuBu")
+       plt.xlabel("True Class", size = 12, horizontalalignment="right")
+       plt.ylabel("Predicted Class", size = 12)
+       ax.set_yticklabels(classes, rotation = 45, fontdict= {'fontsize': 10})
+       ax.set_xticklabels(classes, rotation = 30, fontdict= {'fontsize': 10})
+       plt.title("Confusion matrix", size = 20)
+       plt.show()
+       
+   # Logistic regression
+   log_model = LogisticRegression(C = 1, random_state = 42)
+   log_model.fit(X_train, y_train)
+   
+   # performance on TRAIN
+   y_pred = log_model.predict(X_train)   
+   print('Classification report:')
+   print(classification_report(y_train, y_pred))
+   c_matrix(y_train, y_pred, ["Hate", "Offensive", "Neither"])
+      
+   # performance on TEST
+   y_pred = log_model.predict(X_test)   
+   print('Classification report:')
+   print(classification_report(y_test, y_pred))
+   c_matrix(y_test, y_pred, ["Hate", "Offensive", "Neither"])
+   
+   
+   
+   # fare analisi esplorativa. Quante parole in ogni tweet?
+   # modulo chi2 di scikit per plottare unigrammi e bigrammi
+   # parole negative le eliminiamo? (not, )
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
