@@ -4,7 +4,11 @@ from gensim.models.doc2vec import Doc2Vec, TaggedDocument # doc2vec
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
+# models
 from sklearn.linear_model import LogisticRegression
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.svm import SVC
+
 # results
 from matplotlib import pyplot as plt
 from sklearn.metrics import classification_report, confusion_matrix
@@ -41,15 +45,13 @@ if __name__ == "__main__":
    # generate model of vectorization
    if 'd2v.model' not in os.listdir('../models'):
       documents = [TaggedDocument (doc, [i]) for i, doc in enumerate(df["tweet_list"])]
-      model = Doc2Vec (documents, vector_size=5, window=2, min_count=1)
+      model = Doc2Vec (documents, vector_size=100, window=10, min_count=1)
       model.save("../models/d2v.model")
    else:
       model = Doc2Vec.load("../models/d2v.model")
    print("Doc2Vec model --- DONE")
    
    ### vectorization
-   # vettore del 1o documento
-   vector = model.infer_vector(df["tweet_list"].loc[0])
    # vettori per tutti i documenti
    df["vectors"] = df["tweet_list"].apply(lambda x: model.infer_vector(x))
    print("Vectorization --- DONE")
@@ -77,25 +79,34 @@ if __name__ == "__main__":
        fig, ax= plt.subplots(figsize = (8,6))
        sns.heatmap(cm, annot=True, annot_kws={"size": 10},
                   linewidths=.2, fmt="d", cmap="PuBu")
-       plt.xlabel("True Class", size = 12, horizontalalignment="right")
-       plt.ylabel("Predicted Class", size = 12)
+       plt.xlabel("Predicted Class", size = 12, horizontalalignment="right")
+       plt.ylabel("True Class", size = 12)
        ax.set_yticklabels(classes, rotation = 45, fontdict= {'fontsize': 10})
        ax.set_xticklabels(classes, rotation = 30, fontdict= {'fontsize': 10})
        plt.title("Confusion matrix", size = 20)
        plt.show()
-       
+   
+   # class weights
+   weights = df['class'].value_counts() / len(df['class'])
    # Logistic regression
-   log_model = LogisticRegression(C = 1, random_state = 42)
-   log_model.fit(X_train, y_train)
+   #model = LogisticRegression(C = 1, random_state = 42, class_weight= {0 : weights[0],
+   #                                                                    1 : weights[1],
+   #                                                                    2 : weights[2]})
+   model = SVC(random_state = 42, class_weight= {0 : weights[0],
+                                                 1 : weights[1],
+                                                 2 : weights[2]})
+   
+   model.fit(X_train, y_train)
+   print("Modelling --- DONE")
    
    # performance on TRAIN
-   y_pred = log_model.predict(X_train)   
+   y_pred = model.predict(X_train)   
    print('Classification report:')
    print(classification_report(y_train, y_pred))
    c_matrix(y_train, y_pred, ["Hate", "Offensive", "Neither"])
       
    # performance on TEST
-   y_pred = log_model.predict(X_test)   
+   y_pred = model.predict(X_test)   
    print('Classification report:')
    print(classification_report(y_test, y_pred))
    c_matrix(y_test, y_pred, ["Hate", "Offensive", "Neither"])
