@@ -22,3 +22,6 @@ def reply_tweet(text):
         return 1
     else:
         return 0
+
+def exclamation(text):
+    return len(re.findall("!", text))
