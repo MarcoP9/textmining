@@ -41,14 +41,11 @@ def tokenization(text_clean, tok = "tweet"):
 # 3. remove stopwords from tokenized text
 def remove_stopwords(tokenized_text):
     remove_sw = []
-    flag = 0
     for token in tokenized_text:
         stop_words.append("rt") # Added a stop words, RT for ReTweet
-        if token == "rt":
-            flag = 1
         if token.lower() not in stop_words:
             remove_sw.append(token)
-    return remove_sw, flag
+    return remove_sw
  
 # pos-tagging (1 document)
 def pos_tagging(doc_token):
@@ -90,9 +87,9 @@ def stemmer(tokenized_text):
 def processing(text):
     text_prep = preprocessing(text)
     text_prep = tokenization(text_prep)
-    text_prep, flag = remove_stopwords(text_prep)
+    text_prep = remove_stopwords(text_prep)
     text_prep = lemmatizer_doc(text_prep)
     #text_prep = stemmer(text_prep)
     text_prep = " ".join(text_prep)
     #print(text_prep)
-    return pd.Series([text_prep, flag])
+    return text_prep
