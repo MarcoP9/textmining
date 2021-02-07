@@ -25,3 +25,6 @@ def reply_tweet(text):
 
 def exclamation(text):
     return len(re.findall("!", text))
+
+def emoji(text):
+    return len(re.findall("&#1\d+", text) # Ancora da testare
