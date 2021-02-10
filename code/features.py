@@ -3,7 +3,7 @@
 import re, string
 import pandas as pd
 
-from process_text import *
+from code.process_text import *
 
 def retweet(text):
     text = preprocessing(text)
