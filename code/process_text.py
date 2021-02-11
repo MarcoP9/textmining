@@ -86,10 +86,15 @@ def stemmer(tokenized_text):
 # process one document
 def processing(text):
     text_prep = preprocessing(text)
+    print("Preprocessing --- DONE")
     text_prep = tokenization(text_prep)
+    print("Tokenization --- DONE")
     text_prep = remove_stopwords(text_prep)
+    print("Stopwords removal --- DONE")
     text_prep = lemmatizer_doc(text_prep)
+    print("Lemmatizer --- DONE")
     #text_prep = stemmer(text_prep)
     text_prep = " ".join(text_prep)
+    print("Processing text --- DONE")
     #print(text_prep)
     return text_prep

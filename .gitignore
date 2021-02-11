@@ -2,3 +2,6 @@
 **models/
 **code/__pycache__/
 **code/github_classifier.ipynb
+**.npy
+**.npz
+**.pyc
