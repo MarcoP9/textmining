@@ -1,0 +1,1 @@
+In this folder doc2vec model is stored.

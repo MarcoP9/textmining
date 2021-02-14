@@ -17,81 +17,45 @@ There are two ways to install the correct libraries:
 
 ## Folder structure
 ```
-|   .gitignore
-|   01-Text_Exploration.ipynb
-|   02-Text_Processing_Representation.ipynb
-|   03-Features_extraction.ipynb
-|   04-Text_Classification.ipynb
-|   05-Text_Classification_Binary.ipynb
-|   environment.yml
-|   README.md
-|   requirements.txt
-|   tree.txt
-|   WordCloud.ipynb
-|   
-+---.ipynb_checkpoints
-|       01-Text_Exploration-checkpoint.ipynb
-|       02-Text_Processing_Representation-checkpoint.ipynb
-|       03-Features_extraction-checkpoint.ipynb
-|       04-Text_Classification-checkpoint.ipynb
-|       05-Text_Classification_Binary-checkpoint.ipynb
-|       Exploration-checkpoint.ipynb
-|       Lemmatization-checkpoint.ipynb
-|       WordCloud-checkpoint.ipynb
-|       
-+---code
-|   |   features.py
-|   |   github_classifier.ipynb
-|   |   main.py
-|   |   process_text.py
-|   |   Text_mining.ipynb
-|   |   Text_mining_01.ipynb
-|   |   utils.py
-|   |   __init__.py
-|   |   
-|   +---.ipynb_checkpoints
-|   |       github_classifier-checkpoint.ipynb
-|   |       Text_mining-checkpoint.ipynb
-|   |       Text_mining_01-checkpoint.ipynb
-|   |       
-|   \---__pycache__
-|           features.cpython-37.pyc
-|           process_text.cpython-37.pyc
-|           utils.cpython-37.pyc
-|           __init__.cpython-37.pyc
-|           
-+---data
-|   |   featured_data.csv
-|   |   labeled_data.csv
-|   |   mask_marco.png
-|   |   processed_data.csv
-|   |   trump_tweets.csv
-|   |   
-|   \---representations
-|           bag_of_words.npz
-|           count_vector.npz
-|           doc2vec.npy
-|           tf-idf.npy
-|           
-+---models
-|   +---base
-|   |       adaboost.sav
-|   |       best_nn.h5
-|   |       svm.sav
-|   |       
-|   +---binary
-|   |       adaboost.sav
-|   |       logistic.sav
-|   |       nn_3.h5
-|   |       svm.sav
-|   |       
-|   \---doc2vec
-\---pics
-    |   emoji.PNG
-    |   num_exc.PNG
-    |   sentiment.PNG
-    |   
-    \---wordcloud
+C:.
+│   .gitignore
+│   01-Text_Exploration.ipynb
+│   02-Text_Processing_Representation.ipynb
+│   03-Features_extraction.ipynb
+│   04-Text_Classification.ipynb
+│   05-Text_Classification_Binary.ipynb
+│   environment.yml
+│   README.md
+│   requirements.txt
+│   WordCloud.ipynb
+│
+├───data
+│   │   featured_data.csv
+│   │   labeled_data.csv
+│   │   mask_marco.png
+│   │   processed_data.csv
+│   │   trump_tweets.csv
+│   │
+│   └───representations
+│           bag_of_words.npz
+│           count_vector.npz
+│           doc2vec.npy
+│           tf-idf.npy
+│
+├───models
+│   ├───base
+│   │       README.md
+│   │
+│   ├───binary
+│   │       README.md
+│   │
+│   └───doc2vec
+│           README.md
+│
+└───pics
+    │   sentiment.PNG
+    │
+    └───wordcloud
             hate.PNG
             hate_offensive.PNG
             neither.PNG
